@@ -30,12 +30,14 @@ class ListCreateRegistrosView(generics.ListCreateAPIView):
 
     @validate_request_data
     def post(self, request, *args, **kwargs):
-        a_song = Registros.objects.create(
+        r = Registros.objects.create(
             title=request.data["title"],
-            description=request.data["description"]
+            description=request.data["description"],
+            author=request.user
         )
+        
         return Response(
-            data=RegistrosSerializer(a_song).data,
+            data=RegistrosSerializer(r).data,
             status=status.HTTP_201_CREATED
         )
 

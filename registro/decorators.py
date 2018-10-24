@@ -10,7 +10,7 @@ def validate_request_data(fn):
         if not title and not description:
             return Response(
                 data={
-                    "message": "Both title and description are required"
+                    "message": "Title and Description are required"
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )

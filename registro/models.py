@@ -10,8 +10,8 @@ class Registros(models.Model):
     created_date = models.DateTimeField(
             default=timezone.now)
 
-    # left this here !
-    # author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    
+    author = models.ForeignKey('auth.User', on_delete=models.CASCADE, default='10')
 
     def __str__(self):
         return self.title

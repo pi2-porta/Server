@@ -7,12 +7,13 @@ from .models import Registros
 class RegistrosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Registros
-        fields = ("title", "description", "created_date")
+        fields = ("title", "description", "created_date", "author")
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get("title", instance.title)
-        instance.artist = validated_data.get("description", instance.description)
-        instance.artist = validated_data.get("created_date", instance.created_date)
+        instance.description = validated_data.get("description", instance.description)
+        instance.created_date = validated_data.get("created_date", instance.created_date)
+        instance.author = validated_data.get("author", instance.author)
         instance.save()
         return instance
 
