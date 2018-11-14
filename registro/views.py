@@ -10,6 +10,7 @@ from rest_framework_jwt.settings import api_settings
 
 # from .decorators import validate_request_data
 from .models import Registros
+from .models import Profile
 from .serializers import RegistrosSerializer, TokenSerializer, UserSerializer
 
 # Get the JWT settings
@@ -78,6 +79,8 @@ class RegisterUsersView(generics.CreateAPIView):
         username = request.data.get("username", "")
         password = request.data.get("password", "")
         email = request.data.get("email", "")
+        photo = request.data.get("photo")
+        
         if not username and not password and not email:
             return Response(
                 data={
@@ -88,4 +91,9 @@ class RegisterUsersView(generics.CreateAPIView):
         new_user = User.objects.create_user(
             username=username, password=password, email=email
         )
+
+        new_user.profile.image = photo
+
+        new_user.save()
+
         return Response(status=status.HTTP_201_CREATED)
