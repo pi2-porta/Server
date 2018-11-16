@@ -26,7 +26,10 @@ class Profile(models.Model):
 
     image = models.ImageField(upload_to='profile_image', blank = False)
 
-    bio = models.TextField(max_length=500, blank=True)
+    encode = models.TextField(max_length=2000, blank=True)
+
+    def __str__(self):
+        return self.user.username
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

@@ -20,6 +20,12 @@ jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 from .serializers import RegistrosSerializer
 from .decorators import validate_request_data
 
+#face recognition
+import face_recognition
+
+#system
+import sys
+
 class ListCreateRegistrosView(generics.ListCreateAPIView):
     """
     GET songs/
@@ -93,6 +99,33 @@ class RegisterUsersView(generics.CreateAPIView):
         )
 
         new_user.profile.image = photo
+       
+
+        new_face = face_recognition.load_image_file(new_user.profile.image.path)
+
+        try:
+             new_face_encoding = face_recognition.face_encodings(new_face)[0]
+        
+        except IndexError:
+            print("I wasn't able to locate any faces in at least one of the images. Check the image files. Aborting...")
+            # quit()
+
+        print(new_face_encoding)
+
+        new_user.profile.encode = new_face_encoding
+
+
+        #####
+
+
+
+        #####
+
+
+
+
+
+
 
         new_user.save()
 
