@@ -14,7 +14,7 @@ class Registros(models.Model):
     created_date = models.DateTimeField(
             default=timezone.now)
 
-    
+
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE, default='10')
 
     def __str__(self):

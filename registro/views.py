@@ -126,8 +126,7 @@ class RegisterUsersView(generics.CreateAPIView):
             print("I wasn't able to locate any faces in at least one of the images. Check the image files. Aborting...")
 
 
-
-        new_user.profile.encode = new_face_encoding.tolist()
+        new_user.profile.encode = base64.b64encode(new_face_encoding)
 
         new_user.save()
 
@@ -163,8 +162,6 @@ class SearchUserPhotoView(generics.ListCreateAPIView):
         jpg_as_np = np.frombuffer(jpg_original, dtype=np.uint8)
         image_buffer = cv2.imdecode(jpg_as_np, flags=1)
 
-        print(image_buffer)
-
         # unknown_face = face_recognition.load_image_file(photo.path)
         #
         # try:
@@ -173,44 +170,37 @@ class SearchUserPhotoView(generics.ListCreateAPIView):
         # except IndexError:
         #     print("I wasn't able to locate any faces in at least one of the images. Check the image files. Aborting...")
 
-        # a = face_recognition.face_locations(rgb_frame)
-        #
-        #
-        # unknown_face = face_recognition.face_encodings(rgb_frame, a)
-        #
-        #
-        #
-        # # print(request.data)
-        #
-        #
-        # for u in users_list:
-        #
-        #     found = False
-        #     results = []
-        #
-        #     face = u.profile.encode
-        #
-        #
-        #
-        #     face = self.to_float(face)
-        #
-        #
-        #
-        #     results = face_recognition.compare_faces([unknown_face_encoding], face)
-        #
-        #     # print(results)
-        #
-        #     for r in results:
-        #         if r == True:
-        #             print('Found')
-        #         elif r == False:
-        #             print('Not found')
-        #         else:
-        #             print('Impossible')
+        rgb_frame = image_buffer[:, :, ::-1]
+        a = face_recognition.face_locations(rgb_frame)
+
+
+        unknown_face = face_recognition.face_encodings(rgb_frame, a)
+
+
+
+        # print(request.data)
+
+        resultado = False
+        for u in users_list:
+
+            found = False
+            results = []
+
+            encode = u.profile.encode
+            t = base64.decodestring(bytes(encode[2:-1], 'utf-8'))
+            q = np.frombuffer(t, dtype=np.float64)
+
+            results = face_recognition.compare_faces(unknown_face, q)
+
+            # print(results)
+
+
+            if True in results:
+                resultado = True
 
 
         return Response(
-            data='TRUE',
+            data=resultado,
             status=status.HTTP_201_CREATED
         )
 
