@@ -26,7 +26,7 @@ SECRET_KEY = 'i&mm23$2hji!cptv*4^mo3$3ar#9qzsmw^gf99_13ybsowwk8g'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.0.15','127.0.0.1']
 
 
 # Application definition
@@ -85,14 +85,14 @@ DATABASES = {
 
 REST_FRAMEWORK = {
     # ...
-    
+
     # inside the Rest framework settings dictionary, add the permission settings
     # Permission settings
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ],
-    
+
     #...
 }
 

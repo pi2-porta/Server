@@ -180,7 +180,7 @@ class SearchUserPhotoView(generics.ListCreateAPIView):
 
         # print(request.data)
 
-        resultado = False
+        resultado = 'False'
         for u in users_list:
 
             found = False
@@ -196,7 +196,7 @@ class SearchUserPhotoView(generics.ListCreateAPIView):
 
 
             if True in results:
-                resultado = True
+                resultado = u.profile.mac_address
 
 
         return Response(

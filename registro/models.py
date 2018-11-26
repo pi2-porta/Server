@@ -28,6 +28,8 @@ class Profile(models.Model):
 
     encode = models.TextField(max_length=2000, blank=True)
 
+    mac_address = models.TextField(max_length=17, blank = False, default = '00:00:00:00:00:00')
+
     def __str__(self):
         return self.user.username
 
